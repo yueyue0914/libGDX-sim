@@ -10,6 +10,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.Input;//监测键盘输入的
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.TimeUtils;
+
+
+
 
 public class Drop extends ApplicationAdapter {
 	private Texture dropImage;
@@ -19,6 +26,17 @@ public class Drop extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Rectangle bucket;
+	private Array<Rectangle> raindrops;
+	private long lastDropTime;
+	private void spawnRaindrop() {
+		Rectangle raindrop = new Rectangle();
+		raindrop.x = MathUtils.random(0, 800-64);
+		raindrop.y = 480;
+		raindrop.width = 64;
+		raindrop.height = 64;
+		raindrops.add(raindrop);
+		lastDropTime = TimeUtils.nanoTime();
+	}
 	
 	@Override
 	public void create () {
@@ -46,6 +64,18 @@ public class Drop extends ApplicationAdapter {
 		bucket.width = 64;
 		bucket.height = 64;
 
+		//键盘控制移动
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += 200 * Gdx.graphics.getDeltaTime();
+
+		//限制水桶位置
+		if(bucket.x < 0) bucket.x = 0;
+		if(bucket.x > 800 - 64) bucket.x = 800 - 64;
+
+		//水滴
+		raindrops = new Array<Rectangle>();
+		spawnRaindrop();
+
 	}
 
 	@Override
@@ -62,6 +92,8 @@ public class Drop extends ApplicationAdapter {
 			camera.unproject(touchPos);
 			bucket.x = touchPos.x - 64 / 2;
 		}
+		//渲染雨滴
+		if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
 	}
 
 }
