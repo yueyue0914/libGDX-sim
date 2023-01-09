@@ -1,32 +1,63 @@
-# libGDX-template
+# libGDX-示例项目说明
+## 构造介绍
+多端打包公用一个核心与资源文件夹core/src/com/badlogic/*/*.java **是项目创建时候创建的文件夹
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+### 配置类型（DESKTOP桌面版）
+根据要求，可以配置不同的入门类。我们将从桌面项目开始。在 （或在 Eclipse 下） 打开类。我们想要一个 800x480 的窗口并将标题设置为“拖放”。代码应如下所示：DesktopLauncher.javadesktop/src/…drop-desktop
+```java
+package com.badlogic.drop.desktop;
 
-#### 软件架构
-软件架构说明
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.drop.Drop;
 
+public class DesktopLauncher {
+   public static void main (String[] arg) {
+      Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+      config.setTitle("Drop");
+      config.setWindowedMode(800, 480);
+      config.useVsync(true);
+      config.setForegroundFPS(60);
+      new Lwjgl3Application(new Drop(), config);
+   }
+}
+```
+### 配置类型（android端）
+转到 Android 项目，我们希望应用程序以横向模式运行。为此，我们需要在（或）根目录中进行修改，如下所示：AndroidManifest.xmlandroiddrop-android
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.badlogic.drop.android"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-#### 安装教程
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="20" />
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/GdxTheme" >
+        <activity
+            android:name="com.badlogic.drop.android.AndroidLauncher"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+</manifest>
+```
 
 #### 参与贡献
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+1.  蔡昊麟
+2.  张永朋
+
 
 
 #### 特技
